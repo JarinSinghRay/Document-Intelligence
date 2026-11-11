@@ -1,0 +1,640 @@
+{
+ "files": 88,
+ "labeled_records": 147,
+ "wall_clock_s": 89.0,
+ "workers": 4,
+ "document_success_rate_pct": 100.0,
+ "document_failure_rate_pct_on_valid_files": 0.0,
+ "corrupt_files_correctly_rejected": "5/5",
+ "record_count_correct_pct": 98.8,
+ "field_accuracy_pct": {
+  "invoice_number": 92.52,
+  "invoice_date": 93.88,
+  "supplier": 96.6,
+  "customer": 91.84,
+  "subtotal": 93.2,
+  "tax": 93.2,
+  "total": 91.84,
+  "currency": 95.24
+ },
+ "overall_field_accuracy_pct": 93.54,
+ "full_record_exact_match_pct": 88.44,
+ "line_item_f1_mean": 0.921,
+ "records_with_any_error": 17,
+ "erroneous_records_routed_to_review_pct": 88.24,
+ "silent_errors_not_flagged": 2,
+ "fabricated_values_on_absent_fields": "0/16",
+ "accuracy_by_category_pct": {
+  "csv": 100.0,
+  "dup_pair": 100.0,
+  "image_clean": 100.0,
+  "image_noisy": 97.92,
+  "image_poor": 16.67,
+  "image_tiff": 87.5,
+  "inject_line_math": 100.0,
+  "inject_missing": 100.0,
+  "inject_total_mismatch": 100.0,
+  "pdf_digital": 100.0,
+  "pdf_digital_batch": 100.0,
+  "pdf_scanned_clean": 100.0,
+  "pdf_scanned_noisy": 100.0,
+  "pdf_scanned_poor": 17.5,
+  "xls": 100.0,
+  "xlsx_form": 100.0,
+  "xlsx_long": 100.0,
+  "xlsx_tabular": 100.0
+ },
+ "validation_recall": {
+  "total_mismatch": "4/4",
+  "line_item_math": "3/3",
+  "missing_field": "3/3",
+  "duplicate_pairs_exactly_one_flagged": "3/3"
+ },
+ "clean_docs_flagged_for_review_pct": 31.34,
+ "processing_ms_by_type": {
+  "corrupt": {
+   "n": 5,
+   "mean": 1066,
+   "median": 88,
+   "p95": 126
+  },
+  "csv": {
+   "n": 1,
+   "mean": 107,
+   "median": 107,
+   "p95": 107
+  },
+  "dup": {
+   "n": 6,
+   "mean": 42,
+   "median": 44,
+   "p95": 45
+  },
+  "image_clean": {
+   "n": 6,
+   "mean": 2985,
+   "median": 3067,
+   "p95": 3264
+  },
+  "image_noisy": {
+   "n": 6,
+   "mean": 4822,
+   "median": 4854,
+   "p95": 5004
+  },
+  "image_poor": {
+   "n": 6,
+   "mean": 18478,
+   "median": 18659,
+   "p95": 18850
+  },
+  "image_tiff": {
+   "n": 1,
+   "mean": 7967,
+   "median": 7967,
+   "p95": 7967
+  },
+  "inject": {
+   "n": 10,
+   "mean": 50,
+   "median": 45,
+   "p95": 77
+  },
+  "pdf_digital": {
+   "n": 25,
+   "mean": 52,
+   "median": 27,
+   "p95": 95
+  },
+  "pdf_scanned": {
+   "n": 15,
+   "mean": 11017,
+   "median": 6235,
+   "p95": 21909
+  },
+  "xls": {
+   "n": 1,
+   "mean": 119,
+   "median": 119,
+   "p95": 119
+  },
+  "xlsx": {
+   "n": 6,
+   "mean": 143,
+   "median": 57,
+   "p95": 102
+  }
+ },
+ "unexpected_failures": [],
+ "mismatches": [
+  [
+   "img_noisy_1.png",
+   "supplier",
+   "Acme industriat Suppiies Ltd",
+   "Acme Industrial Supplies Ltd"
+  ],
+  [
+   "scan_poor_0.pdf",
+   "invoice_number",
+   null,
+   "2025/0167"
+  ],
+  [
+   "scan_poor_0.pdf",
+   "invoice_date",
+   "2005-06-28",
+   "2025-06-25"
+  ],
+  [
+   "scan_poor_0.pdf",
+   "customer",
+   null,
+   "Vertex Engineering"
+  ],
+  [
+   "scan_poor_0.pdf",
+   "subtotal",
+   7.02,
+   7021.07
+  ],
+  [
+   "scan_poor_0.pdf",
+   "tax",
+   null,
+   1053.16
+  ],
+  [
+   "scan_poor_0.pdf",
+   "total",
+   74.23,
+   8074.23
+  ],
+  [
+   "img_poor_0.png",
+   "invoice_number",
+   null,
+   "A-00168"
+  ],
+  [
+   "img_poor_0.png",
+   "customer",
+   null,
+   "Zenith Hardware"
+  ],
+  [
+   "img_poor_0.png",
+   "subtotal",
+   null,
+   14980.5
+  ],
+  [
+   "img_poor_0.png",
+   "tax",
+   2.25,
+   2247.07
+  ],
+  [
+   "img_poor_0.png",
+   "total",
+   null,
+   17227.57
+  ],
+  [
+   "img_poor_0.jpg",
+   "invoice_number",
+   null,
+   "A-00169"
+  ],
+  [
+   "img_poor_0.jpg",
+   "invoice_date",
+   null,
+   "2025-11-01"
+  ],
+  [
+   "img_poor_0.jpg",
+   "customer",
+   null,
+   "Pioneer Health Care"
+  ],
+  [
+   "img_poor_0.jpg",
+   "subtotal",
+   null,
+   13879.61
+  ],
+  [
+   "img_poor_0.jpg",
+   "tax",
+   2.08,
+   2081.94
+  ],
+  [
+   "img_poor_0.jpg",
+   "total",
+   null,
+   15961.55
+  ],
+  [
+   "img_poor_0.jpg",
+   "currency",
+   null,
+   "USD"
+  ],
+  [
+   "scan_poor_1.pdf",
+   "invoice_number",
+   null,
+   "2025/0170"
+  ],
+  [
+   "scan_poor_1.pdf",
+   "invoice_date",
+   null,
+   "2026-08-18"
+  ],
+  [
+   "scan_poor_1.pdf",
+   "customer",
+   null,
+   "Vertex Engineering"
+  ],
+  [
+   "scan_poor_1.pdf",
+   "subtotal",
+   null,
+   7986.92
+  ],
+  [
+   "scan_poor_1.pdf",
+   "tax",
+   null,
+   399.35
+  ],
+  [
+   "scan_poor_1.pdf",
+   "total",
+   6386.27,
+   8386.27
+  ],
+  [
+   "scan_poor_1.pdf",
+   "currency",
+   "USD",
+   "GBP"
+  ],
+  [
+   "img_poor_1.png",
+   "invoice_number",
+   "2026/0171",
+   "2025/0171"
+  ],
+  [
+   "img_poor_1.png",
+   "invoice_date",
+   "2028-01-21",
+   "2025-01-21"
+  ],
+  [
+   "img_poor_1.png",
+   "supplier",
+   "Padme Cleening Services Bal To: Quantum Analytics inc",
+   "Padma Cleaning Services"
+  ],
+  [
+   "img_poor_1.png",
+   "customer",
+   null,
+   "Quantum Analytics Inc"
+  ],
+  [
+   "img_poor_1.png",
+   "subtotal",
+   null,
+   2424.64
+  ],
+  [
+   "img_poor_1.png",
+   "total",
+   null,
+   2667.1
+  ],
+  [
+   "img_poor_1.png",
+   "currency",
+   null,
+   "BDT"
+  ],
+  [
+   "img_poor_1.jpg",
+   "invoice_number",
+   null,
+   "INV-2025-0172"
+  ],
+  [
+   "img_poor_1.jpg",
+   "invoice_date",
+   null,
+   "2026-02-25"
+  ],
+  [
+   "img_poor_1.jpg",
+   "supplier",
+   "rom BM To: Quantum Anaiytes inc",
+   "Padma Cleaning Services"
+  ],
+  [
+   "img_poor_1.jpg",
+   "customer",
+   null,
+   "Quantum Analytics Inc"
+  ],
+  [
+   "img_poor_1.jpg",
+   "subtotal",
+   4.96,
+   4951.23
+  ],
+  [
+   "img_poor_1.jpg",
+   "tax",
+   null,
+   495.12
+  ],
+  [
+   "img_poor_1.jpg",
+   "total",
+   5406.36,
+   5446.35
+  ],
+  [
+   "img_poor_1.jpg",
+   "currency",
+   null,
+   "GBP"
+  ],
+  [
+   "scan_poor_2.pdf",
+   "invoice_number",
+   null,
+   "INV-2025-0173"
+  ],
+  [
+   "scan_poor_2.pdf",
+   "invoice_date",
+   null,
+   "2026-04-18"
+  ],
+  [
+   "scan_poor_2.pdf",
+   "supplier",
+   "Quewave Logics Bato FPuvericde Hotel & Spa",
+   "Bluewave Logistics"
+  ],
+  [
+   "scan_poor_2.pdf",
+   "customer",
+   null,
+   "Riverside Hotel & Spa"
+  ],
+  [
+   "scan_poor_2.pdf",
+   "subtotal",
+   null,
+   7211.44
+  ],
+  [
+   "scan_poor_2.pdf",
+   "tax",
+   null,
+   721.14
+  ],
+  [
+   "scan_poor_2.pdf",
+   "total",
+   7932.53,
+   7932.58
+  ],
+  [
+   "scan_poor_2.pdf",
+   "currency",
+   null,
+   "GBP"
+  ],
+  [
+   "img_poor_2.png",
+   "invoice_number",
+   null,
+   "A-00174"
+  ],
+  [
+   "img_poor_2.png",
+   "invoice_date",
+   null,
+   "2026-01-21"
+  ],
+  [
+   "img_poor_2.png",
+   "customer",
+   null,
+   "Quantum Analytics Inc"
+  ],
+  [
+   "img_poor_2.png",
+   "tax",
+   1.54,
+   1543.79
+  ],
+  [
+   "img_poor_2.png",
+   "total",
+   null,
+   11835.73
+  ],
+  [
+   "img_poor_2.png",
+   "currency",
+   "EUR",
+   "GBP"
+  ],
+  [
+   "img_poor_2.jpg",
+   "invoice_number",
+   null,
+   "2025/0175"
+  ],
+  [
+   "img_poor_2.jpg",
+   "invoice_date",
+   null,
+   "2026-06-28"
+  ],
+  [
+   "img_poor_2.jpg",
+   "supplier",
+   "Nortrety Soheay LLC",
+   "Northstar Software LLC"
+  ],
+  [
+   "img_poor_2.jpg",
+   "customer",
+   null,
+   "Orion Retail Group"
+  ],
+  [
+   "img_poor_2.jpg",
+   "subtotal",
+   null,
+   6884.94
+  ],
+  [
+   "img_poor_2.jpg",
+   "tax",
+   null,
+   344.25
+  ],
+  [
+   "img_poor_2.jpg",
+   "total",
+   37.23,
+   7229.19
+  ],
+  [
+   "scan_poor_3.pdf",
+   "invoice_number",
+   null,
+   "INV-2025-0176"
+  ],
+  [
+   "scan_poor_3.pdf",
+   "customer",
+   null,
+   "Riverside Hotel & Spa"
+  ],
+  [
+   "scan_poor_3.pdf",
+   "subtotal",
+   null,
+   5678.04
+  ],
+  [
+   "scan_poor_3.pdf",
+   "tax",
+   90.0,
+   283.9
+  ],
+  [
+   "scan_poor_3.pdf",
+   "total",
+   null,
+   5961.94
+  ],
+  [
+   "scan_poor_4.pdf",
+   "invoice_number",
+   null,
+   "INV-2025-0177"
+  ],
+  [
+   "scan_poor_4.pdf",
+   "invoice_date",
+   null,
+   "2026-05-28"
+  ],
+  [
+   "scan_poor_4.pdf",
+   "customer",
+   null,
+   "Zenith Hardware"
+  ],
+  [
+   "scan_poor_4.pdf",
+   "subtotal",
+   null,
+   6151.08
+  ],
+  [
+   "scan_poor_4.pdf",
+   "tax",
+   90755.0,
+   307.55
+  ],
+  [
+   "scan_poor_4.pdf",
+   "total",
+   6.46,
+   6458.63
+  ],
+  [
+   "scan_poor_4.pdf",
+   "currency",
+   "EUR",
+   "USD"
+  ],
+  [
+   "multipage.tiff",
+   "customer",
+   "Orion Retait Group",
+   "Orion Retail Group"
+  ],
+  [
+   "multipage.tiff",
+   "total",
+   null,
+   16585.45
+  ]
+ ],
+ "flag_reasons_on_clean": {
+  "pdf_digital:missing_field:currency": 1,
+  "pdf_digital_batch:missing_field:currency": 1,
+  "pdf_scanned_clean:items_vs_subtotal:subtotal": 1,
+  "pdf_scanned_clean:missing_field:currency": 1,
+  "image_noisy:items_vs_subtotal:subtotal": 2,
+  "image_noisy:missing_field:currency": 1,
+  "pdf_scanned_noisy:missing_field:currency": 1,
+  "pdf_scanned_poor:missing_field:invoice_number": 5,
+  "pdf_scanned_poor:missing_field:customer": 5,
+  "pdf_scanned_poor:total_mismatch:total": 1,
+  "pdf_scanned_poor:low_confidence:invoice_date": 1,
+  "pdf_scanned_poor:low_confidence:supplier": 3,
+  "pdf_scanned_poor:low_confidence:subtotal": 1,
+  "pdf_scanned_poor:low_confidence:total": 2,
+  "pdf_scanned_poor:low_confidence:currency": 3,
+  "image_poor:missing_field:invoice_number": 5,
+  "image_poor:missing_field:total": 4,
+  "image_poor:missing_field:customer": 6,
+  "image_poor:line_item_math:line_items[1]": 2,
+  "image_poor:line_item_math:line_items[3]": 1,
+  "image_poor:low_confidence:invoice_date": 2,
+  "image_poor:missing_field:invoice_date": 4,
+  "image_poor:missing_field:currency": 3,
+  "image_poor:low_confidence:supplier": 2,
+  "pdf_scanned_poor:missing_field:invoice_date": 3,
+  "pdf_scanned_poor:unverifiable_total:total": 3,
+  "image_poor:future_date:invoice_date": 1,
+  "image_poor:total_mismatch:total": 1,
+  "image_poor:low_confidence:subtotal": 1,
+  "image_poor:low_confidence:total": 1,
+  "pdf_scanned_poor:missing_field:currency": 1,
+  "image_poor:items_vs_subtotal:subtotal": 1,
+  "image_poor:unverifiable_total:total": 1,
+  "image_poor:low_confidence:currency": 1,
+  "pdf_scanned_poor:missing_field:total": 1,
+  "image_tiff:missing_field:total": 1,
+  "image_tiff:missing_field:currency": 2,
+  "xlsx_tabular:missing_field:invoice_number": 1,
+  "xlsx_tabular:missing_field:invoice_date": 1,
+  "xlsx_tabular:missing_field:total": 1,
+  "xlsx_tabular:missing_field:customer": 1,
+  "xlsx_tabular:missing_field:currency": 1
+ },
+ "large_pdf": {
+  "pages": 941,
+  "invoices_in_truth": 400,
+  "records_extracted": 400,
+  "wall_s": 3.2,
+  "pages_per_s": 289.7,
+  "status": "needs_review",
+  "invoice_numbers_recovered_pct": 100.0
+ }
+}

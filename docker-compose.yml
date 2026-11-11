@@ -1,0 +1,18 @@
+# Optional production-like stack: PostgreSQL instead of SQLite.
+services:
+  db:
+    image: postgres:16
+    environment: {POSTGRES_USER: docintel, POSTGRES_PASSWORD: docintel, POSTGRES_DB: docintel}
+    volumes: [pgdata:/var/lib/postgresql/data]
+  api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: postgresql+psycopg2://docintel:docintel@db/docintel
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash-lite}
+      EMBEDDING_BACKEND: ${EMBEDDING_BACKEND:-st}
+      API_KEY: ${API_KEY:-}
+    volumes: [data:/data]
+    depends_on: [db]
+volumes: {pgdata: {}, data: {}}

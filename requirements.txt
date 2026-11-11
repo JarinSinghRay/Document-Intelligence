@@ -1,0 +1,27 @@
+fastapi>=0.110
+uvicorn>=0.29
+sqlalchemy>=2.0
+python-multipart
+pydantic>=2
+pymupdf
+pytesseract
+opencv-python-headless
+pillow
+numpy
+pandas
+openpyxl
+xlrd
+python-docx>=1.1
+python-dateutil
+scikit-learn
+google-genai
+chromadb
+sentence-transformers
+# dev / eval
+pytest
+httpx
+reportlab
+xlwt
+# PostgreSQL
+# psycopg2-binary
+psycopg2-binary
