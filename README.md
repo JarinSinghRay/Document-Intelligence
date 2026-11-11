@@ -26,6 +26,7 @@ Chroma is persisted under `DATA_DIR/chroma` by default. SQL remains the source o
 | POST | /api/documents | upload many files (202, background processing) |
 | GET | /api/documents, /api/documents/{id} | status, progress, records, pages |
 | GET | /api/documents/{id}/pages/{n}, /history, /file | source text, audit trail, original |
+| DELETE | /api/documents/{id} | delete a document and its records; unavailable while processing |
 | POST | /api/documents/{id}/reprocess | re-run failed (or any) job; `force=true` overwrites corrections |
 | GET | /api/invoices | filters: q, supplier, customer, invoice_number, status, currency, date_from/to, min/max_total |
 | GET / PATCH | /api/invoices/{id} | result + issues / manual correction (re-validates) |
