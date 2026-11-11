@@ -1,5 +1,6 @@
 """REST API (FastAPI)."""
 import hashlib
+import logging
 import re
 import uuid
 from contextlib import asynccontextmanager
@@ -18,6 +19,7 @@ from .models import Document, Invoice, Page, History
 from .processing.ingest import SUPPORTED
 
 FRONTEND = Path(__file__).resolve().parent.parent / "frontend"
+log = logging.getLogger("docintel")
 
 
 @asynccontextmanager
@@ -149,6 +151,44 @@ def history(doc_id: int, db=Depends(get_db)):
 def download(doc_id: int, db=Depends(get_db)):
     d = _doc(db, doc_id)
     return FileResponse(d.stored_path, filename=d.filename)
+
+
+@app.delete("/api/documents/{doc_id}", dependencies=[Depends(auth)])
+def delete_document(doc_id: int, db=Depends(get_db)):
+    d = _doc(db, doc_id)
+    stored_path = d.stored_path
+    invoice_ids = [row[0] for row in db.query(Invoice.id).filter(Invoice.document_id == doc_id).all()]
+
+    dependents = db.query(Document).filter(Document.duplicate_of == doc_id).all()
+    requeue_ids = []
+    for dependent in dependents:
+        dependent.duplicate_of = None
+        dependent.status, dependent.stage, dependent.progress, dependent.error = "queued", "queued", 0, None
+        requeue_ids.append(dependent.id)
+
+    deleted = db.query(Document).filter(
+        Document.id == doc_id, Document.status != "processing"
+    ).delete(synchronize_session=False)
+    if not deleted:
+        db.rollback()
+        raise HTTPException(409, "Document is currently processing")
+    db.commit()
+
+    try:
+        search.delete_vectors(invoice_ids)
+    except Exception:
+        log.exception("Chroma cleanup failed for deleted document %s; startup reconciliation will retry", doc_id)
+
+    if not db.query(Document.id).filter(Document.stored_path == stored_path).first():
+        try:
+            Path(stored_path).unlink(missing_ok=True)
+        except OSError as e:
+            log.exception("Could not remove uploaded file for deleted document %s", doc_id)
+            raise HTTPException(500, "Document was deleted, but its uploaded file could not be removed") from e
+
+    for dependent_id in requeue_ids:
+        pipeline.enqueue(dependent_id)
+    return {"deleted": doc_id}
 
 
 @app.post("/api/documents/{doc_id}/reprocess", dependencies=[Depends(auth)], status_code=202)

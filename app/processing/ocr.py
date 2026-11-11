@@ -1,10 +1,29 @@
 """OCR with quality-adaptive preprocessing (Tesseract + OpenCV)."""
+import os
+import shutil
+from pathlib import Path
 import cv2
 import numpy as np
 import pytesseract
 from PIL import Image
 from collections import OrderedDict
 from ..config import settings
+
+
+def _configure_tesseract():
+    command = os.getenv("TESSERACT_CMD") or shutil.which("tesseract")
+    if not command and os.name == "nt":
+        for root in (os.getenv("ProgramFiles"), os.getenv("ProgramFiles(x86)")):
+            if root:
+                candidate = Path(root) / "Tesseract-OCR" / "tesseract.exe"
+                if candidate.is_file():
+                    command = str(candidate)
+                    break
+    if command:
+        pytesseract.pytesseract.tesseract_cmd = command
+
+
+_configure_tesseract()
 
 
 def _pil_to_gray(img: Image.Image):

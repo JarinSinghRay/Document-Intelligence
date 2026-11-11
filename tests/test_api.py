@@ -1,4 +1,5 @@
 import io, shutil, subprocess, time, pytest, openpyxl
+from pathlib import Path
 from tests.conftest import wait_done
 from app.config import settings
 from app import search, vector_store
@@ -25,6 +26,39 @@ def test_progress_endpoint_during_processing(client, mk):
 def test_duplicate_file_not_reprocessed(client, mk):
     p, _ = mk("pdf"); first = up(client, p); wait_done(client, first["id"]); second = up(client, p, "copy.pdf")
     assert second["status"] == "duplicate" and second["duplicate_of"] == first["id"]
+
+def test_delete_document_removes_record_and_upload(client, mk):
+    p, _ = mk("pdf"); d = wait_done(client, up(client, p)["id"])
+    from app.db import SessionLocal
+    from app.models import Document, Invoice
+    with SessionLocal() as db:
+        path = db.get(Document, d["id"]).stored_path
+        invoice_ids = [row[0] for row in db.query(Invoice.id).filter(Invoice.document_id == d["id"]).all()]
+    response = client.delete(f"/api/documents/{d['id']}")
+    assert response.status_code == 200 and response.json() == {"deleted": d["id"]}
+    assert client.get(f"/api/documents/{d['id']}").status_code == 404
+    assert not Path(path).exists()
+    assert all(client.get(f"/api/invoices/{invoice_id}").status_code == 404 for invoice_id in invoice_ids)
+
+def test_delete_processing_document_conflicts(client, mk):
+    p, _ = mk("pdf"); d = wait_done(client, up(client, p)["id"])
+    from app.db import SessionLocal
+    from app.models import Document
+    with SessionLocal() as db:
+        document = db.get(Document, d["id"])
+        document.status = "processing"
+        db.commit()
+    response = client.delete(f"/api/documents/{d['id']}")
+    assert response.status_code == 409
+    assert client.get(f"/api/documents/{d['id']}").status_code == 200
+
+def test_delete_duplicate_reprocesses_dependent(client, mk):
+    p, _ = mk("pdf"); original = up(client, p); wait_done(client, original["id"])
+    duplicate = up(client, p, "copy.pdf")
+    response = client.delete(f"/api/documents/{original['id']}")
+    assert response.status_code == 200
+    processed_duplicate = wait_done(client, duplicate["id"])
+    assert processed_duplicate["status"] in ("completed", "needs_review")
 
 def test_duplicate_invoice_detected_across_files(client, mk):
     p1, inv = mk("pdf", template="A"); wait_done(client, up(client, p1)["id"])

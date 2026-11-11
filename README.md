@@ -16,7 +16,7 @@ uvicorn app.main:app --reload            # UI at http://localhost:8000  - API do
 Docker: `docker compose up --build` (PostgreSQL + API).  Single container: `docker build -t docintel . && docker run -p 8000:8000 -v data:/data docintel`
 
 ## Configuration (env vars)
-`DATABASE_URL` (default SQLite in `./data`), `GEMINI_API_KEY`, `GEMINI_MODEL` (default `gemini-3.5-flash-lite`), `API_KEY` (require `X-API-Key`), `WORKERS` (4), `MAX_UPLOAD_MB` (200), `OCR_DPI` (250), `OCR_LANG` (eng), `CHROMA_DIR` (default `./data/chroma`), `EMBEDDING_BACKEND` (`st` | `hash`; default `st`), `EMBEDDING_MODEL` (default `sentence-transformers/all-MiniLM-L6-v2`), `AMOUNT_TOLERANCE` (0.02), `REVIEW_CONFIDENCE` (0.6), `DATE_DAYFIRST` (1).
+`DATABASE_URL` (default SQLite in `./data`), `GEMINI_API_KEY`, `GEMINI_MODEL` (default `gemini-3.5-flash-lite`), `API_KEY` (require `X-API-Key`), `WORKERS` (4), `MAX_UPLOAD_MB` (200), `OCR_DPI` (250), `OCR_LANG` (eng), `TESSERACT_CMD` (optional path to the Tesseract executable when it is not on `PATH`), `CHROMA_DIR` (default `./data/chroma`), `EMBEDDING_BACKEND` (`st` | `hash`; default `st`), `EMBEDDING_MODEL` (default `sentence-transformers/all-MiniLM-L6-v2`), `AMOUNT_TOLERANCE` (0.02), `REVIEW_CONFIDENCE` (0.6), `DATE_DAYFIRST` (1).
 
 Chroma is persisted under `DATA_DIR/chroma` by default. SQL remains the source of truth; on startup, the index is reconciled with existing invoices, including records from before Chroma was added. The default sentence-transformer model downloads once and runs locally; set `EMBEDDING_BACKEND=hash` for a lightweight lexical-vector fallback.
 

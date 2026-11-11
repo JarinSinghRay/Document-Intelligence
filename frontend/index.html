@@ -114,6 +114,7 @@ function Dashboard({open,toast}){
   const upload=async files=>{if(!files.length)return;const fd=new FormData();[...files].forEach(f=>fd.append("files",f));
     try{const r=await API("/documents",{method:"POST",body:fd});toast(`${r.documents.length} queued`+(r.rejected.length?` · ${r.rejected.length} rejected: ${r.rejected.map(x=>x.filename+" ("+x.error+")").join(", ")}`:""))}catch(e){toast("Upload failed: "+e.message)}};
   const reprocess=async(id,e)=>{e.stopPropagation();try{await API(`/documents/${id}/reprocess?force=true`,{method:"POST"});toast("Re-queued #"+id)}catch(x){toast(x.message)}};
+  const remove=async(id,e)=>{e.stopPropagation();if(!confirm(`Delete document #${id} and its uploaded file?`))return;try{await API(`/documents/${id}`,{method:"DELETE"});toast("Deleted document #"+id)}catch(x){toast("Delete failed: "+x.message)}};
   const S=stats||{documents:{}};
   return html`<div>
     <div class="cards">${[["Documents",S.total_documents],["Records",S.records],["Needs review",S.records_needing_review],["Success rate",S.success_rate!=null?(S.success_rate*100).toFixed(1)+"%":"—"],["Avg time",S.avg_processing_ms?S.avg_processing_ms+" ms":"—"],["Pages",S.pages_processed]].map(([l,n])=>html`<div class="card" key=${l}><div class="n">${n??0}</div><div class="l">${l}</div></div>`)}</div>
@@ -123,7 +124,7 @@ function Dashboard({open,toast}){
     <h2>Processing queue</h2><div class="scroll"><table><thead><tr><th>#</th><th>File</th><th>Type</th><th>Status</th><th>Progress</th><th>Pages</th><th>Time</th><th></th></tr></thead><tbody>
     ${(docs?.items||[]).map(d=>html`<tr class="click" key=${d.id} onClick=${()=>open({doc:d.id})}><td>${d.id}</td><td>${d.filename}${d.error?html`<div class="mut" style=${{fontSize:12,color:"var(--err)"}}>${d.error}</div>`:""}</td><td>${d.kind||"—"}</td><td><${Badge} s=${d.status}/></td>
       <td><div class="bar"><i style=${{width:d.progress+"%"}}></i></div><span class="mut" style=${{fontSize:11}}>${d.stage}</span></td><td>${d.page_count||"—"}</td><td>${d.processing_ms!=null?(d.processing_ms/1000).toFixed(1)+"s":"—"}</td>
-      <td>${["failed","needs_review","completed"].includes(d.status)?html`<button class="btn ghost sm" onClick=${e=>reprocess(d.id,e)}>Reprocess</button>`:""}</td></tr>`)}
+      <td>${["failed","needs_review","completed"].includes(d.status)?html`<button class="btn ghost sm" onClick=${e=>reprocess(d.id,e)}>Reprocess</button>`:""} ${d.status!=="processing"?html`<button class="btn ghost sm" onClick=${e=>remove(d.id,e)}>Delete</button>`:""}</td></tr>`)}
     </tbody></table></div></div>`}
 
 function Records({open}){

@@ -28,5 +28,6 @@ def read_image(path, on_page=None):
         if on_page:
             on_page(i + 1, len(frames))
     if all(p["source"] == "failed" for p in pages):
-        raise ProcessingError("OCR failed on every frame")
+        errors = "; ".join(p["error"] for p in pages if p["error"])
+        raise ProcessingError(f"OCR failed on every frame: {errors}")
     return pages
